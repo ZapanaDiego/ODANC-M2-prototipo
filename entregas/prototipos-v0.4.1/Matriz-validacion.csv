@@ -1,0 +1,14 @@
+﻿Grupo,Unidad,Documento,Estado,Incluido en esta entrega,Responsable,Observaciones
+General,Calificación,Resolución General – Calificación,Propuesta por validar,Sí,,
+General,Prevención,Resolución General – Prevención,Estructura por validar,No,,Siguiente entrega
+General,Sanción,Resolución General – Sanción,Estructura por validar,No,,Siguiente entrega
+General,Apelación,Resolución General – Apelación,Estructura por validar,No,,Siguiente entrega
+Informe,Calificación,Informe – Calificación,Propuesta por validar,Sí,,
+Informe,Prevención,Informe de la unidad – Prevención,Estructura por validar,No,,Siguiente entrega
+Informe,Sanción,Informe de la unidad – Sanción,Estructura por validar,No,,Siguiente entrega
+Informe,Apelación,Informe de la unidad – Apelación,Estructura por validar,No,,Siguiente entrega
+Consentida,Jefatura / Juez de Paz,Consentida – Jefatura / Juez de Paz,Base proporcionada,Sí (referencia),,No modificar sin validación
+Consentida,Calificación,Consentida – Calificación,Estructura por validar,No,,Siguiente entrega; verificar si aplica
+Consentida,Prevención,Consentida – Prevención,Estructura por validar,No,,Siguiente entrega; verificar si aplica
+Consentida,Sanción,Consentida – Sanción,Estructura por validar,No,,Siguiente entrega; verificar si aplica
+Consentida,Apelación,Consentida – Apelación,Estructura por validar,No,,Siguiente entrega; verificar si aplica

@@ -1,0 +1,65 @@
+const fs=require('node:fs');
+(async()=>{
+const fresh=await (await fetch('http://127.0.0.1:9223/json/new?about:blank',{method:'PUT'})).json();const pages=[fresh];
+const ws=new WebSocket(pages.find(p=>p.type==='page' && !p.url.startsWith('chrome://webui')).webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);let seq=0;const pending=new Map();const errors=[];
+ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)?.(m);pending.delete(m.id);}if(m.method==='Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);};
+const call=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,m=>m.error?reject(m.error):resolve(m.result));ws.send(JSON.stringify({id,method,params}));});
+const evaluate=async expression=>{const r=await call('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||'Evaluation failed');return r.result.value;};
+const assert=(x,m)=>{if(!x)throw Error(m);console.log('PASS',m);};
+await call('Runtime.enable');await call('Page.enable');await call('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
+await call('Page.navigate',{url:'file:///home/diego/Proyectos/ODANC/disenio/index.html#/documentos'});await new Promise(r=>setTimeout(r,700));
+console.log('errors',errors); 
+console.log(await evaluate(`({title:document.querySelector('#wizard-title').textContent,steps:document.querySelectorAll('[data-paso]').length,visible:document.querySelector('#vista-nuevo-documento').hidden})`));
+assert(!errors.length,'Sin errores al iniciar');
+await evaluate(`window.confirm=()=>true;document.querySelector('#cargar-ejemplo').click()`);
+await evaluate(`document.querySelector('[data-paso="2"]').click();document.querySelector('#agregar-notificacion').click()`);
+assert(await evaluate(`document.querySelectorAll('.notification-card').length===2`),'Agregar destinatario');
+await evaluate(`document.querySelector('[data-quitar="1"]').click();document.querySelector('[data-paso="3"]').click()`);
+assert(await evaluate(`document.querySelectorAll('.review-issue').length===0`),'Consentida de ejemplo preparada');
+await evaluate(`document.querySelector('#btn-guardar-documento').click()`);await new Promise(r=>setTimeout(r,500));
+await call('Page.reload');await new Promise(r=>setTimeout(r,500));await evaluate('window.confirm=()=>true');
+await evaluate(`document.querySelector('#tab-documentos').click()`);await new Promise(r=>setTimeout(r,400));
+await evaluate(`document.querySelector('[data-accion="abrir"]').click()`);await new Promise(r=>setTimeout(r,350));
+assert(await evaluate(`document.querySelectorAll('.notification-card').length===1 && document.querySelector('#notif-0-nombre').value==='Persona de ejemplo'`),'Reapertura de notificaciones');
+await evaluate(`document.querySelector('[data-paso="2"]').click();document.querySelector('#notif-0-vence').value='2026-09-01';document.querySelector('#notif-0-vence').dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-paso="3"]').click()`);
+assert(await evaluate(`document.querySelector('#revision-resumen').innerText.includes('posterior')`),'Detectar cronología incoherente');
+await evaluate(`document.querySelector('#tab-documentos').click()`);await new Promise(r=>setTimeout(r,200));
+await evaluate(`document.querySelector('[data-accion="duplicar"]').click()`);await new Promise(r=>setTimeout(r,300));
+assert(await evaluate(`document.querySelectorAll('.doc-card').length>=2`),'Duplicar borrador');
+await evaluate(`document.querySelector('#btn-nuevo-documento').click();document.querySelector('#tab-plantillas').click()`);
+assert(await evaluate(`document.querySelectorAll('#plantillas-lista [data-tipo]').length===8`),'Ocho propuestas en catálogo');
+await evaluate('window.confirm=()=>true');
+await call('Browser.setDownloadBehavior',{behavior:'allow',downloadPath:'/home/diego/Proyectos/ODANC/disenio/pruebas/exportaciones'});
+for(const id of ['consentida','informe','rechazo','apelacion','decreto','auto','pad','fondo']) {
+ await evaluate(`document.querySelector('#btn-nuevo-documento').click();document.querySelector('#tab-plantillas').click();document.querySelector('#plantillas-lista [data-tipo="${id}"]').click();document.querySelector('#cargar-ejemplo').click();document.querySelector('[data-paso="3"]').click()`);
+ assert(await evaluate(`document.querySelectorAll('.review-issue').length===0`),id+' ejemplo completo');
+ await evaluate(`document.querySelector('#btn-descargar-word').click()`);
+ await new Promise(r=>setTimeout(r,150));
+ if(id==='apelacion') {
+  await evaluate(`document.querySelector('#btn-guardar-documento').click()`);await new Promise(r=>setTimeout(r,250));
+  await evaluate(`document.querySelector('#tab-documentos').click()`);await new Promise(r=>setTimeout(r,250));
+  await evaluate(`document.querySelector('[data-accion="abrir"]').click()`);await new Promise(r=>setTimeout(r,250));
+  assert(await evaluate(`document.querySelector('#sol-tipo').value==='apelacion' && document.querySelector('#sol-extra-destino').value==='Dato de ejemplo para revisión'`),'Restaurar tipo y campos del trámite');
+ }
+}
+await evaluate(`document.querySelector('#btn-nuevo-documento').click();document.querySelector('#tab-plantillas').click()`);
+await call('Page.captureScreenshot',{format:'png'}).then(r=>fs.writeFileSync('pruebas/modulo2-catalogo.png',Buffer.from(r.data,'base64')));
+await evaluate(`document.querySelector('#plantillas-lista [data-tipo="consentida"]').click();document.querySelector('#cargar-ejemplo').click();document.querySelector('[data-paso="2"]').click()`);
+await call('Page.captureScreenshot',{format:'png'}).then(r=>fs.writeFileSync('pruebas/modulo2-contenido.png',Buffer.from(r.data,'base64')));
+await call('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+assert(await evaluate(`document.documentElement.scrollWidth<=390`),'Sin desbordamiento horizontal en móvil');
+await call('Page.captureScreenshot',{format:'png'}).then(r=>fs.writeFileSync('pruebas/modulo2-movil.png',Buffer.from(r.data,'base64')));
+await evaluate(`document.querySelector('#tab-documentos').click()`);await new Promise(r=>setTimeout(r,150));
+await evaluate(`document.querySelector('#filtro-grupo').value='apelacion';document.querySelector('#filtro-grupo').dispatchEvent(new Event('change'))`);await new Promise(r=>setTimeout(r,150));
+assert(await evaluate(`Array.from(document.querySelectorAll('.doc-card h4')).every(el=>el.innerText.includes('Concesorio')) && document.querySelectorAll('.doc-card').length>0`),'Filtro por tipo específico');
+await evaluate(`document.querySelector('[data-accion="eliminar"]').click()`);await new Promise(r=>setTimeout(r,200));
+await call('Page.navigate',{url:'file:///home/diego/Proyectos/ODANC/disenio/index.html?debug=1#/plazos'});await new Promise(r=>setTimeout(r,400));
+await evaluate('window.confirm=()=>true');
+assert(await evaluate(`document.querySelectorAll('.debug-fail').length===0 && document.querySelectorAll('.debug-pass').length>0`),'Casos del motor del Módulo 1 conservados');
+await evaluate(`document.querySelector('#fecha-inicio').value='2026-09-14';document.querySelector('#dias-plazo').value='3';document.querySelector('#notificacion-electronica').checked=false;document.querySelector('#btn-calcular-plazo').click();location.hash='#/documentos'`);await new Promise(r=>setTimeout(r,150));
+await evaluate(`document.querySelector('#cargar-ejemplo').click();document.querySelector('[data-paso="2"]').click();document.querySelector('[data-calculo="0"]').click()`);
+assert(await evaluate(`JSON.parse(document.querySelector('#sol-notificaciones').value)[0].vence==='2026-09-17'`),'Copiar cálculo al destinatario');
+assert(await evaluate(`document.querySelector('#notif-0-fecha').value==='2026-09-14'`),'Copiar fecha de notificación');
+assert(!errors.length,'Sin errores durante todos los recorridos');
+console.log('FINAL_ERRORS',errors);ws.close();
+})().catch(e=>{console.error(e);process.exit(1)});

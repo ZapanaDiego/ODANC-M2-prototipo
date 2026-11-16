@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Prototipo del Sistema de Apoyo Procesal de la ODANC Arequipa: cálculo de plazos y autogenerador documental.">
+  <title>Módulo 1 · Calculadora de Plazos · ODANC Arequipa</title>
+  <link rel="icon" href="assets/logo-anc.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <svg class="svg-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+    <symbol id="calc" viewBox="0 0 24 24"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM8 18H6v-2h2zm0-4H6v-2h2zm0-4H6V8h2zm5 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2V8h2zm5 8h-2v-6h2zm0-8h-2V8h2zM18 6H6V4h12z"/></symbol>
+    <symbol id="doc" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"/></symbol>
+    <symbol id="bars" viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></symbol>
+    <symbol id="gear" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.61l-1.92-3.32a.5.5 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.5.5 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.5.5 0 0 0-.12-.61zM12 15.6A3.6 3.6 0 1 1 15.6 12 3.6 3.6 0 0 1 12 15.6z"/></symbol>
+    <symbol id="cal" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14zM7 12h4v4H7z"/></symbol>
+    <symbol id="clock" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11h-4V7h2v4h2z"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></symbol>
+    <symbol id="warning" viewBox="0 0 24 24"><path d="M1 21h22L12 2zM13 18h-2v-2h2zm0-4h-2v-4h2z"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"/></symbol>
+    <symbol id="eye" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></symbol>
+    <symbol id="download" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"/></symbol>
+    <symbol id="expand" viewBox="0 0 24 24"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10z"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></symbol>
+    <symbol id="xmark" viewBox="0 0 24 24"><path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.42L10.59 13.41 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.29l6.3 6.3 6.29-6.3z"/></symbol>
+    <symbol id="info" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></symbol>
+    <symbol id="wand" viewBox="0 0 24 24"><path d="M7.5 5.6 10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29a1 1 0 0 0-1.41 0L1.29 18.96a1 1 0 0 0 0 1.41l2.34 2.34a1 1 0 0 0 1.41 0L16.7 11.05a1 1 0 0 0 0-1.41zm-1.03 5.49-2.12-2.12 2.44-2.44 2.12 2.12z"/></symbol>
+    <symbol id="broom" viewBox="0 0 24 24"><path d="M16 11h-1V3a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v8H8a5 5 0 0 0-5 5v7h18v-7a5 5 0 0 0-5-5zm3 10h-2v-3a1 1 0 0 0-2 0v3h-2v-3a1 1 0 0 0-2 0v3H9v-3a1 1 0 0 0-2 0v3H5v-5a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3z"/></symbol>
+    <symbol id="copy" viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11z"/></symbol>
+    <symbol id="file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z"/></symbol>
+    <symbol id="gavel" viewBox="0 0 24 24"><path d="M1 21h12v2H1zM5.25 8.07l2.83-2.83 14.14 14.14-2.83 2.83zM12.32 1l5.66 5.66-2.83 2.83-5.66-5.66zM3.83 9.49l5.66 5.66-2.83 2.83L1 12.32z"/></symbol>
+    <symbol id="folder" viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/></symbol>
+    <symbol id="grid" viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></symbol>
+  </svg>
+
+  <div class="app">
+    <aside class="sidebar">
+      <a class="brand" href="#/plazos" aria-label="ODANC Arequipa, ir a la calculadora de plazos">
+        <span class="brand-logo">
+          <img src="assets/logo-anc.jpg" width="1563" height="924" alt="Autoridad Nacional de Control del Poder Judicial">
+        </span>
+        <span class="brand-text"><strong>ODANC</strong><span>AREQUIPA</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a class="nav-link" href="#/plazos" data-nav="plazos" aria-label="Módulo 1, cómputo de plazos">
+          <svg class="i" aria-hidden="true"><use href="#calc"></use></svg>
+          <span>Módulo 1<small>Cómputo de Plazos</small></span>
+        </a>
+        <a class="nav-link" href="#/documentos" data-nav="documentos" aria-label="Módulo 2, autogenerador documental">
+          <svg class="i" aria-hidden="true"><use href="#doc"></use></svg>
+          <span>Módulo 2<small>Autogenerador Documental</small></span>
+        </a>
+      </nav>
+
+      <div class="sidebar-art" aria-hidden="true">
+        <svg class="palace" viewBox="0 0 156 150" role="presentation" focusable="false">
+          <defs>
+            <linearGradient id="palaceMass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity=".08"/>
+              <stop offset="1" stop-color="#fff" stop-opacity=".015"/>
+            </linearGradient>
+            <radialGradient id="palaceGlow" cx="50%" cy="58%" r="55%">
+              <stop offset="0" stop-color="#fff" stop-opacity=".10"/>
+              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <pattern id="palaceHatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="3" stroke="#fff" stroke-width=".38" opacity=".6"/>
+            </pattern>
+            <g id="palaceWindowUpper">
+              <rect class="detail" width="8" height="14"/>
+              <rect class="fine" x="1.3" y="1.3" width="5.4" height="11.4"/>
+              <path class="fine" d="M4 1.3v11.4M1.3 7h5.4"/>
+              <path class="detail" d="M-1 14h10"/>
+            </g>
+            <g id="palaceWindowLower">
+              <rect class="detail" width="8" height="16"/>
+              <rect class="fine" x="1.3" y="1.3" width="5.4" height="13.4"/>
+              <path class="fine" d="M4 1.3v13.4M1.3 8h5.4"/>
+              <path class="detail" d="M-1 16h10"/>
+              <path class="fine" d="M-.5 17h9"/>
+            </g>
+          </defs>
+
+          <ellipse cx="78" cy="112" rx="76" ry="54" fill="url(#palaceGlow)"/>
+          <path class="mass" d="M6 130V44h42V28l30-20 30 20v16h42v86Z"/>
+          <path class="mass" d="M40 110h76l12 30H28Z"/>
+
+          <g class="hatch">
+            <rect x="56" y="42" width="44" height="68"/>
+            <rect x="48" y="34" width="60" height="8" opacity=".65"/>
+            <rect x="6" y="100" width="42" height="30" opacity=".55"/>
+            <rect x="108" y="100" width="42" height="30" opacity=".55"/>
+          </g>
+
+          <g class="detail">
+            <path d="M6 38h42M108 38h42M6 42h42M108 42h42"/>
+            <path d="M6 44h42M108 44h42M6 47h42M108 47h42"/>
+            <path d="M47 30h62M48 34h60M48 36h60M48 38h60"/>
+            <path d="M52 28 78 11.5 104 28"/>
+            <path d="M47 28c-2 0-3-1.2-2.2-2.6M109 28c2 0 3-1.2 2.2-2.6"/>
+            <path stroke-dasharray="1 1.2" d="M50 39.3h56"/>
+            <use href="#palaceWindowUpper" x="10" y="50"/>
+            <use href="#palaceWindowUpper" x="22" y="50"/>
+            <use href="#palaceWindowUpper" x="34" y="50"/>
+            <use href="#palaceWindowUpper" x="112" y="50"/>
+            <use href="#palaceWindowUpper" x="124" y="50"/>
+            <use href="#palaceWindowUpper" x="136" y="50"/>
+            <use href="#palaceWindowLower" x="10" y="78"/>
+            <use href="#palaceWindowLower" x="22" y="78"/>
+            <use href="#palaceWindowLower" x="34" y="78"/>
+            <use href="#palaceWindowLower" x="112" y="78"/>
+            <use href="#palaceWindowLower" x="124" y="78"/>
+            <use href="#palaceWindowLower" x="136" y="78"/>
+            <path d="M19 46v52M21 46v52M31 46v52M33 46v52M121 46v52M123 46v52M133 46v52M135 46v52"/>
+            <path d="M18 44h4M18 98h4M30 44h4M30 98h4M120 44h4M120 98h4M132 44h4M132 98h4"/>
+            <path d="M6 104h42M6 109h42M6 114h42M6 119h42M6 124h42M108 104h42M108 109h42M108 114h42M108 119h42M108 124h42"/>
+            <path d="M14 100v14M26 100v14M38 100v14M10 114v16M22 114v16M34 114v16M46 114v16M114 100v14M126 100v14M138 100v14M110 114v16M122 114v16M134 114v16M146 114v16"/>
+            <path d="M56 48h44M56 54h44M56 60h44M62 42v18M70 42v18M78 42v18M86 42v18M94 42v18"/>
+            <path d="M38.4 116h79.2M36.8 122h82.4M35.2 128h85.6M33.6 134h88.8"/>
+            <path d="M24 122h12M24 130h12M24 126h12M120 122h12M120 130h12M120 126h12"/>
+          </g>
+
+          <g class="outline">
+            <path d="M6 130V44h42V28l30-20 30 20v16h42v86"/>
+            <path d="M6 130h42M108 130h42M6 140h150"/>
+            <path d="M48 28 78 8 108 28"/>
+            <path d="M45 28h66"/>
+            <path d="M48 40h60"/>
+            <rect x="50.5" y="44" width="3" height="60"/>
+            <rect x="58.5" y="44" width="3" height="60"/>
+            <rect x="66.5" y="44" width="3" height="60"/>
+            <rect x="86.5" y="44" width="3" height="60"/>
+            <rect x="94.5" y="44" width="3" height="60"/>
+            <rect x="102.5" y="44" width="3" height="60"/>
+            <path d="M49 40h6v4h-6zM57 40h6v4h-6zM65 40h6v4h-6zM85 40h6v4h-6zM93 40h6v4h-6zM101 40h6v4h-6z"/>
+            <path d="M48 104h8v2h-8zM56 104h8v2h-8zM64 104h8v2h-8zM84 104h8v2h-8zM92 104h8v2h-8zM100 104h8v2h-8z"/>
+            <path d="M46 106h64M46 108h64M46 110h64"/>
+            <rect x="72" y="80" width="12" height="28" style="fill:rgba(8,20,56,.62)"/>
+            <path d="M56 42v66M100 42v66"/>
+            <path d="M40 110h76l12 30H28Z"/>
+            <path d="M40 110 28 140M116 110l12 30"/>
+            <path d="M78 8V1"/>
+            <path d="M78 1.5 90 2.6v4.6L78 6.2Z"/>
+            <path d="M24 122h12v8H24Z"/>
+            <path d="M120 122h12v8h-12Z"/>
+          </g>
+
+          <g class="fine">
+            <path d="M9 38.5v3M12.5 38.5v3M16 38.5v3M19.5 38.5v3M23 38.5v3M26.5 38.5v3M30 38.5v3M33.5 38.5v3M37 38.5v3M40.5 38.5v3M44 38.5v3"/>
+            <path d="M111 38.5v3M114.5 38.5v3M118 38.5v3M121.5 38.5v3M125 38.5v3M128.5 38.5v3M132 38.5v3M135.5 38.5v3M139 38.5v3M142.5 38.5v3M146 38.5v3"/>
+            <path d="M52 46v56M60 46v56M68 46v56M88 46v56M96 46v56M104 46v56"/>
+            <path d="M74 90h8v6h-8zM74 100h8v6h-8z"/>
+            <path d="M76 110 75 140M80 110l1 30"/>
+            <path d="M82 2.3v4.1M86 2.6v4.5"/>
+          </g>
+
+          <g class="gold">
+            <path d="M72 80h12v28H72Z"/>
+            <path d="M72 86h12M78 86v22"/>
+            <path d="M76 110 75 140M80 110l1 30"/>
+          </g>
+          <circle class="gold-fill" cx="78" cy="95" r=".8"/>
+          <path class="gold-fill" d="M78 1.5 90 2.6v4.6L78 6.2Z"/>
+          <path class="gold" d="M55 33.6h46"/>
+
+          <g class="lions">
+            <circle cx="26.5" cy="116.2" r="2.3"/>
+            <path d="M24.8 114.8l-1.2-.8M26 114l-.3-1.2M27.4 114.3l.5-1.1"/>
+            <path d="M28.6 117.2c1.6-1 3.5-.7 4.6.6l.1 3.7h-1.4v-2.1h-1v2.1h-1.5v-2.1h-1v2.1h-1.4v-2.4c0-.7.6-1.4 1.6-1.9z"/>
+            <path d="M33.2 117.8c1.7.4 2.4-1 1.9-2.6"/>
+            <circle cx="35.3" cy="115.1" r=".7"/>
+            <path d="M24.6 116h-1.2"/>
+            <circle cx="129.5" cy="116.2" r="2.3"/>
+            <path d="M131.2 114.8l1.2-.8M130 114l.3-1.2M128.6 114.3l-.5-1.1"/>
+            <path d="M127.4 117.2c-1.6-1-3.5-.7-4.6.6l-.1 3.7h1.4v-2.1h1v2.1h1.5v-2.1h1v2.1h1.4v-2.4c0-.7-.6-1.4-1.6-1.9z"/>
+            <path d="M122.8 117.8c-1.7.4-2.4-1-1.9-2.6"/>
+            <circle cx="120.7" cy="115.1" r=".7"/>
+            <path d="M131.4 116h1.2"/>
+          </g>
+
+          <text class="inscription" x="78" y="32.8" text-anchor="middle">PALACIO DE JUSTICIA</text>
+          <ellipse cx="78" cy="141" rx="64" ry="2.5" fill="#fff" opacity=".05"/>
+        </svg>
+      </div>
+    </aside>
+
+    <main class="main" id="contenido">
+      <div id="banner-fecha-manual" class="manual-banner" hidden>
+        <div class="manual-banner-text">
+          <svg class="i" aria-hidden="true"><use href="#warning"></use></svg>
+          <span>Fecha manual: <strong id="texto-fecha-manual">--/--/----</strong></span>
+        </div>
+        <div class="manual-banner-actions">
+          <button class="btn btn-amber" type="button" id="btn-banner-cambiar">Cambiar</button>
+          <button class="btn btn-amber-dark" type="button" id="btn-banner-desactivar">Volver al equipo</button>
+        </div>
+      </div>
+
+      <header class="topbar">
+        <div class="topbar-title">
+          <div class="topbar-heading">
+            <h1 id="page-title">Módulo 1 · Calculadora de Plazos</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="chip" title="Fecha de trabajo">
+            <svg class="i" aria-hidden="true"><use href="#clock"></use></svg>
+            <b id="chip-fecha">--/--/----</b>
+            <span id="badge-modo-manual" class="manual-badge" hidden>MANUAL</span>
+          </div>
+          <button class="btn btn-outline btn-clock" type="button" id="btn-abrir-reloj" title="Ajustar fecha de trabajo" aria-haspopup="dialog">
+            <svg class="i" aria-hidden="true"><use href="#gear"></use></svg>
+            Reloj
+          </button>
+        </div>
+      </header>
+
+      <div class="view">
+
+        <!-- ============================= MÓDULO 1 ============================= -->
+        <section class="page" id="page-plazos" data-page="plazos">
+          <h2 class="sr-only">Calculadora de Plazos</h2>
+
+          <div class="calc-layout">
+            <section class="card calc-form-card">
+              <div class="card-heading">
+                <span class="num">1</span>
+                <div>
+                  <h3>Cómputo del plazo</h3>
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label for="fecha-inicio" id="label-fecha-inicio">Notificación</label>
+                  <input class="input" type="date" id="fecha-inicio">
+                  <small class="field-help" id="ayuda-fecha-inicio">Cómputo desde el día hábil siguiente.</small>
+                </div>
+                <div class="field">
+                  <label for="dias-plazo">Días hábiles</label>
+                  <input class="input" type="number" id="dias-plazo" value="15" min="1" max="5000" step="1">
+                  <small class="field-help">Entre 1 y 5000.</small>
+                </div>
+              </div>
+
+              <div class="notification-option">
+                <label class="notification-label" for="notificacion-electronica">
+                  <input type="checkbox" id="notificacion-electronica">
+                  <span>Casilla electrónica</span>
+                </label>
+                <p class="notification-help" id="ayuda-notificacion-electronica">Suma dos días hábiles previos.</p>
+              </div>
+
+              <button class="btn btn-primary btn-block" type="button" id="btn-calcular-plazo">
+                <svg class="i" aria-hidden="true"><use href="#calc"></use></svg>
+                Calcular plazo
+              </button>
+
+              <p class="inline-warning" id="aviso-calendario" hidden></p>
+            </section>
+
+            <aside class="result-card" aria-labelledby="resultado-titulo">
+              <svg class="result-watermark" aria-hidden="true"><use href="#cal"></use></svg>
+              <span class="result-eyebrow" id="resultado-titulo">Resultado</span>
+              <div class="result-body">
+                <p>Vence el:</p>
+                <div class="result-date" id="resultado-fecha" aria-live="polite">--/--/----</div>
+                <p class="result-detail" id="resultado-detalle">Pulse «Calcular plazo».</p>
+                <div class="result-notification" id="resultado-notificacion" hidden>
+                  <strong>Casilla electrónica</strong>
+                  <span>Dos días previos aplicados.</span>
+                </div>
+                <p class="result-warning" id="resultado-aviso" hidden></p>
+              </div>
+              <div class="result-actions">
+                <button class="btn btn-ghost-light btn-block" type="button" id="btn-copiar">
+                  <svg class="i" aria-hidden="true"><use href="#copy"></use></svg>
+                  Copiar fecha
+                </button>
+                <button class="btn btn-gold btn-block" type="button" id="btn-usar-modulo2">
+                  <svg class="i" aria-hidden="true"><use href="#doc"></use></svg>
+                  Usar en Módulo 2
+                  <svg class="i" aria-hidden="true"><use href="#arrow"></use></svg>
+                </button>
+              </div>
+            </aside>
+          </div>
+
+          <section class="card calendar-card">
+            <div class="card-heading-row">
+              <div class="card-heading">
+                <span class="num">2</span>
+                <div>
+                  <h3>Feriados y días inhábiles</h3>
+                </div>
+              </div>
+              <button class="btn btn-outline" type="button" id="btn-feriados-base">
+                <svg class="i" aria-hidden="true"><use href="#cal"></use></svg>
+                <span id="texto-feriados-base">Cargar feriados base del año</span>
+              </button>
+            </div>
+
+            <div class="holiday-form">
+              <span class="mini-label">Agregar día inhábil</span>
+              <div class="holiday-form-grid">
+                <div class="field">
+                  <label for="fecha-inhabil">Fecha</label>
+                  <input class="input" type="date" id="fecha-inhabil">
+                </div>
+                <div class="field">
+                  <label for="tipo-inhabil">Categoría</label>
+                  <select class="input" id="tipo-inhabil">
+                    <option value="oficial">Feriado Oficial</option>
+                    <option value="contingencia">Contingencia</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="motivo-inhabil">Motivo</label>
+                  <div class="inline-field">
+                    <input class="input" type="text" id="motivo-inhabil" placeholder="Ej. Apagón / Caída SINOE">
+                    <button class="btn btn-primary btn-icon" type="button" id="btn-agregar-inhabil" aria-label="Agregar día inhábil">
+                      <svg class="i" aria-hidden="true"><use href="#plus"></use></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="holiday-grid">
+              <div class="holiday-group official">
+                <div class="holiday-head">
+                  <span class="holiday-title"><svg class="i" aria-hidden="true"><use href="#cal"></use></svg> Feriados oficiales</span>
+                  <span class="count" id="badge-count-oficial">0</span>
+                </div>
+                <p class="holiday-note">Los feriados pasados se proyectan.</p>
+                <div class="holiday-list" id="lista-feriados-oficiales" aria-live="polite"></div>
+              </div>
+              <div class="holiday-group contingency">
+                <div class="holiday-head">
+                  <span class="holiday-title"><svg class="i" aria-hidden="true"><use href="#warning"></use></svg> Contingencias</span>
+                  <span class="count" id="badge-count-contingencia">0</span>
+                </div>
+                <div class="holiday-list" id="lista-feriados-contingencias" aria-live="polite"></div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- ============================= MÓDULO 2 ============================= -->
+        <section class="page" id="page-documentos" data-page="documentos" hidden>
+          <h2 class="sr-only">Autogenerador Documental</h2>
+
+          <div class="doc-layout">
+            <section class="card doc-form">
+              <div class="tabs" role="tablist" aria-label="Secciones del autogenerador">
+                <button class="tab is-active" type="button" role="tab" aria-selected="true" id="tab-nuevo" aria-controls="vista-nuevo-documento">
+                  <svg class="i" aria-hidden="true"><use href="#doc"></use></svg>Nuevo Documento
+                </button>
+                <button class="tab" type="button" role="tab" aria-selected="false" id="tab-documentos" aria-controls="vista-mis-documentos">
+                  <svg class="i" aria-hidden="true"><use href="#folder"></use></svg>Mis Documentos
+                </button>
+                <button class="tab" type="button" role="tab" aria-selected="false" id="tab-plantillas" aria-controls="vista-plantillas">
+                  <svg class="i" aria-hidden="true"><use href="#grid"></use></svg>Plantillas
+                </button>
+              </div>
+
+              <div id="vista-nuevo-documento" role="tabpanel" aria-labelledby="tab-nuevo">
+              <div class="wizard-heading"><div><span class="wizard-eyebrow">PREPARAR BORRADOR</span><h3 id="wizard-title">Resolución Consentida</h3></div><button class="btn btn-outline btn-small" type="button" id="cargar-ejemplo">Cargar ejemplo</button></div>
+              <nav class="wizard-steps" aria-label="Pasos del documento"></nav>
+              <div class="doc-form-body">
+                <div class="form-section">
+                  <h3><span class="num">1</span>Documento</h3>
+                  <input type="hidden" id="sol-tipo" value="consentida">
+                  <div class="selection-matrix">
+                    <div class="field"><label for="doc-unidad">1. Área</label><select class="input" id="doc-unidad"><option selected value="Calificación">Calificación e Investigación Preliminar</option><option value="Prevención">Prevención, Supervisión e Inspección</option><option value="Procedimiento Administrativo Disciplinario">Procedimiento Administrativo Disciplinario</option><option value="Sanción y Apelación">Sanción y Apelación</option><option value="Jefatura / Juez de Paz">Jefatura de la ODANC</option></select></div>
+                    
+                    <div class="field"><label for="doc-formato-consentida">3. Formato</label><select class="input" id="doc-formato-consentida"></select></div>
+                  </div>
+                  <p class="field-help" id="doc-estado"></p>
+                  <div class="document-selection-title">2. Documento <small>Elija una tarjeta para ver sus formatos</small></div>
+                  <div id="catalogo-tipos" class="document-catalog"></div>
+                  <div id="doc-plantilla-info" hidden></div>
+
+                </div>
+
+                <div class="form-section">
+                  <h3><span class="num">2</span>Datos generales</h3>
+                  <div class="field-grid field-grid-compact">
+                    <div class="field">
+                      <label for="sol-queja" id="label-sol-queja">EXPEDIENTE</label>
+                      <input class="input" type="text" id="sol-queja" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-origen">Origen de queja</label>
+                      <input class="input" type="text" id="sol-origen" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-investigacion">Quejoso</label>
+                      <input class="input" type="text" id="sol-investigacion" placeholder="Si consta en el expediente" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-quejado" id="label-sol-quejado">Quejado</label>
+                      <input class="input" type="text" id="sol-quejado" placeholder="Opcional" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-resolucion-actual" id="label-sol-resolucion-actual">Resolución N°</label>
+                      <input class="input" type="text" id="sol-resolucion-actual" inputmode="numeric" autocomplete="off">
+                    </div>
+                    <div class="field" id="field-sol-referencia" hidden>
+                      <label for="sol-referencia">Resolución de referencia</label>
+                      <input class="input" type="text" id="sol-referencia" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+
+                <div id="form-consentida">
+                  <div class="form-section">
+                    <h3><span class="num">3</span>Resolución consentida</h3>
+                    <div class="field-grid field-grid-compact">
+                      <div class="field">
+                        <label for="sol-resolucion-consentida">Resolución anterior N°</label>
+                        <input class="input" type="number" id="sol-resolucion-consentida" min="1" max="999" step="1">
+                      </div>
+                      <div class="field">
+                        <label for="sol-fecha-consentida">Fecha de la resolución anterior</label>
+                        <input class="input" type="date" id="sol-fecha-consentida">
+                      </div>
+                      <div class="field"><label for="sol-fecha-actual">Fecha de la nueva resolución</label><input class="input" type="date" id="sol-fecha-actual"></div>
+                    </div>
+                    <div class="notification-heading"><h4>Personas notificadas</h4><button class="btn btn-outline btn-small" type="button" id="agregar-notificacion">+ Agregar persona</button></div>
+                    <input type="hidden" id="sol-notificaciones" value="[]">
+                    <div id="notificaciones-lista"></div>
+                    <div class="field"><label for="sol-recursos">Revisión de recursos</label><select id="sol-recursos" class="input"><option value="">Pendiente de verificar</option><option value="sin">Se verificó: no se presentó recurso</option><option value="con">Existe un recurso presentado</option></select></div>
+                    <div class="field"><label for="sol-verificacion">Sustento de la revisión</label><input class="input" id="sol-verificacion" placeholder="Registro consultado y responsable"></div>
+
+                  </div>
+
+                  <div class="form-section">
+                    <h3><span class="num">4</span>Textos legales</h3>
+                    <details class="legal-details">
+                      <summary>Contenido de la resolución anterior</summary>
+                      <div class="field">
+                        <label for="sol-considerando">Resumen de lo decidido</label>
+                        <textarea class="input textarea" id="sol-considerando" rows="4"></textarea>
+                      </div>
+                      <div class="field">
+                        <label for="sol-parte">Extremo que se declara consentido</label>
+                        <textarea class="input textarea" id="sol-parte" rows="3"></textarea>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+
+                <div id="form-general" hidden><div class="form-section" id="datos-tramite"><h3>Datos del trámite</h3><div id="campos-tramite"></div></div>
+                  <div class="form-section">
+                    <h3><span class="num">3</span>Contenido de la resolución</h3>
+                    <div class="field-grid field-grid-compact">
+                      <div class="field">
+                        <label for="gen-fecha">Fecha de la resolución</label>
+                        <input class="input" type="date" id="gen-fecha">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="gen-considerando">Considerando</label>
+                      <textarea class="input textarea" id="gen-considerando" rows="4"></textarea>
+                      <small class="field-help">Marcadores disponibles: {FECHA_NOTIFICACION}, {FECHA_VENCIMIENTO}, {DIAS_HABILES}, {EXPEDIENTE}, {PARTES}, {RESOLUCION_REFERENCIA}.</small>
+                    </div>
+                    <div class="field">
+                      <label for="gen-resuelve">Parte resolutiva</label>
+                      <textarea class="input textarea" id="gen-resuelve" rows="3"></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="form-informe" hidden>
+                  <div class="form-section">
+                    <h3><span class="num">3</span>Contenido del informe</h3>
+                    <div class="field-grid field-grid-compact">
+                      <div class="field">
+                        <label for="inf-fecha">Fecha del informe</label>
+                        <input class="input" type="date" id="inf-fecha">
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="inf-antecedentes">Antecedentes</label>
+                      <textarea class="input textarea" id="inf-antecedentes" rows="3"></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="inf-analisis">Análisis</label>
+                      <textarea class="input textarea" id="inf-analisis" rows="3"></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="inf-conclusion">Conclusión</label>
+                      <textarea class="input textarea" id="inf-conclusion" rows="2"></textarea>
+                    </div>
+                    <div class="field">
+                      <label for="inf-recomendacion">Recomendación</label>
+                      <textarea class="input textarea" id="inf-recomendacion" rows="2"></textarea>
+                    </div>
+                    <small class="field-help">Marcadores disponibles: {FECHA_NOTIFICACION}, {FECHA_VENCIMIENTO}, {DIAS_HABILES}, {EXPEDIENTE}, {PARTES}, {ORIGEN}.</small>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h3><span class="num">5</span>Firma</h3>
+                  <div class="field-grid field-grid-compact">
+                    <div class="field field-span-2">
+                      <label for="sol-firmante">Firmante</label>
+                      <input class="input" type="text" id="sol-firmante" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-cargo">Cargo</label>
+                      <input class="input" type="text" id="sol-cargo" autocomplete="off">
+                    </div>
+                    <div class="field">
+                      <label for="sol-iniciales">Iniciales</label>
+                      <input class="input" type="text" id="sol-iniciales" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h3><span class="num">6</span>Fechas del Módulo 1</h3>
+                  <div class="dates-box">
+                    <svg class="i" aria-hidden="true"><use href="#cal"></use></svg>
+                    <div class="date-cell"><span>Notificación</span><b id="doc-fecha-notificacion">--/--/----</b></div>
+                    <div class="date-cell"><span>Vencimiento</span><b id="doc-fecha-vencimiento">--/--/----</b></div>
+                    <div class="date-cell is-center"><span>Días</span><b id="doc-dias">15</b></div>
+                  </div>
+                  <div class="dates-status">
+                    <span class="status-pill pending" id="doc-fechas-pill">Sin cálculo</span>
+                    <a class="link-inline" href="#/plazos">Ir al Módulo 1</a>
+                  </div>
+                  <p class="field-help" id="texto-fechas-ayuda">Aplique el cálculo a la persona correspondiente en Contenido.</p>
+                </div>
+
+                <div class="form-section">
+                  <h3>Descargar borrador</h3>
+                  <div class="field">
+                    <label for="ref-formato">Formato</label>
+                    <select class="input" id="ref-formato">
+                      <option value="word">Documento Word (.doc)</option>
+                      <option value="pdf">PDF (imprimir)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wizard-navigation"><button type="button" class="btn btn-outline" id="paso-anterior">Anterior</button><span id="paso-contador"></span><button type="button" class="btn btn-primary" id="paso-siguiente">Continuar →</button></div>
+              <div class="doc-actions">
+                <button class="btn btn-primary" type="button" id="btn-generar">
+                  <svg class="i" aria-hidden="true"><use href="#wand"></use></svg> Descargar borrador
+                </button>
+                <button class="btn btn-outline" type="button" id="btn-guardar-documento">
+                  <svg class="i" aria-hidden="true"><use href="#check"></use></svg> Guardar
+                </button>
+                <button class="btn btn-ghost" type="button" id="btn-limpiar" title="Conserva firmante, cargo e iniciales">
+                  <svg class="i" aria-hidden="true"><use href="#broom"></use></svg> Nuevo
+                </button>
+              </div>
+              </div>
+
+              <section class="template-gallery" id="vista-plantillas" hidden><h3>Plantillas</h3><p class="field-help">Modelos de trabajo sujetos a validación.</p><div id="plantillas-lista"></div></section>
+              <section class="doc-library" id="vista-mis-documentos" role="tabpanel" aria-labelledby="tab-documentos" hidden>
+                <div class="library-head">
+                  <div>
+                    <h3 id="library-title"><svg class="i" aria-hidden="true"><use href="#folder"></use></svg> Mis Documentos</h3>
+                    <p class="field-help">Borradores guardados en este equipo. Use datos de prueba.</p>
+                  </div>
+                  <button class="btn btn-primary" type="button" id="btn-nuevo-documento">
+                    <svg class="i" aria-hidden="true"><use href="#plus"></use></svg> Nuevo documento
+                  </button>
+                </div>
+
+                <div class="library-filters">
+                  <div class="field">
+                    <label for="filtro-documentos">Buscar</label>
+                    <input class="input" type="search" id="filtro-documentos" placeholder="Título, expediente o unidad" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label for="filtro-grupo">Tipo de documento</label>
+                    <select class="input" id="filtro-grupo"><option value="">Todos</option></select>
+                  </div>
+                  <div class="field">
+                    <label for="filtro-estado">Estado</label>
+                    <select class="input" id="filtro-estado">
+                      <option value="">Todos</option>
+                      <option value="borrador">Borrador</option>
+
+                    </select>
+                  </div>
+                </div>
+
+                <p class="library-note" id="library-storage-note" hidden></p>
+                <div id="lista-documentos" class="library-list" aria-live="polite"></div>
+                <div id="library-empty" class="library-empty" hidden>
+                  <strong>No hay documentos guardados.</strong>
+                  <span>Cree un documento y pulse «Guardar».</span>
+                </div>
+              </section>
+            </section>
+
+            <aside class="preview-panel" aria-label="Vista previa del borrador">
+              <div class="pv-head">
+                <h3><svg class="i" aria-hidden="true"><use href="#eye"></use></svg>Vista previa</h3>
+                <button class="btn btn-ghost-light btn-small" type="button" id="btn-pantalla-completa" aria-expanded="false">
+                  <svg class="i" aria-hidden="true"><use href="#expand"></use></svg>
+                  <span id="texto-pantalla-completa">Pantalla completa</span>
+                </button>
+              </div>
+
+              <article class="paper paper-doc">
+                <span class="paper-watermark" aria-hidden="true">BORRADOR</span>
+                <div class="paper-inner" id="doc-contenido"></div>
+              </article>
+
+              <div class="pv-actions">
+                <button class="btn btn-ghost-light" type="button" id="btn-descargar-word" title="Descargar Word">
+                  <svg class="i" aria-hidden="true"><use href="#download"></use></svg> Word
+                </button>
+                <button class="btn btn-ghost-light" type="button" id="btn-imprimir" title="Imprimir o guardar PDF">
+                  <svg class="i" aria-hidden="true"><use href="#file"></use></svg> PDF
+                </button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+      </div>
+
+      <footer class="app-footer">
+        <span>Prototipo ODANC Arequipa · <b>v0.6.0-prototipo</b></span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modal de control de fecha -->
+  <div id="modal-reloj" class="modal" hidden>
+    <div class="modal-backdrop" data-close-reloj></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-reloj-title" tabindex="-1">
+      <div class="modal-head">
+        <h2 id="modal-reloj-title">
+          <svg class="i" aria-hidden="true"><use href="#clock"></use></svg>
+          Fecha de trabajo
+        </h2>
+        <button class="icon-btn" type="button" id="btn-cerrar-modal-reloj" aria-label="Cerrar">
+          <svg class="i" aria-hidden="true"><use href="#xmark"></use></svg>
+        </button>
+      </div>
+      <p class="modal-text">Fecha de trabajo distinta a la del equipo.</p>
+      <div class="field">
+        <label for="input-fecha-manual">Fecha</label>
+        <input class="input" type="date" id="input-fecha-manual" min="1900-01-01" max="2100-12-31">
+      </div>
+      <div class="modal-alert" id="modal-alerta-manual" hidden>
+        <svg class="i" aria-hidden="true"><use href="#warning"></use></svg>
+        <span>Modo manual activado.</span>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" type="button" id="btn-activar-manual">
+          <svg class="i" aria-hidden="true"><use href="#check"></use></svg>
+          Usar esta fecha
+        </button>
+        <button class="btn btn-outline" type="button" id="btn-desactivar-manual" hidden>
+          <svg class="i" aria-hidden="true"><use href="#clock"></use></svg>
+          Volver al equipo
+        </button>
+        <button class="btn btn-ghost" type="button" id="btn-cancelar-reloj">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <noscript>
+    <div class="noscript">Este prototipo necesita JavaScript habilitado para calcular y guardar los plazos.</div>
+  </noscript>
+
+  <script src="js/plantillas.js"></script>
+  <script src="js/storage/document-store.js"></script>
+  <script src="js/modulo2-panel.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

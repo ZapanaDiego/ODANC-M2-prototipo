@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Resolución Consentida Calificación - DEMO-0142-2026</title>
+<style>
+      @page { size: 21cm 29.7cm; margin: 1.0cm 2.75cm 1.2cm; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body { font-family: Garamond, "Times New Roman", "Liberation Serif", serif; color: #000; font-size: 11pt; }
+      .doc-page { position: relative; }
+      .doc-head { width: 100%; border-collapse: collapse; margin-bottom: 2pt; }
+      .doc-head td { padding: 0; vertical-align: middle; text-align: center; }
+      .doc-head td:nth-child(1) { width: 28%; text-align: left; }
+      .doc-head td:nth-child(2) { width: 30%; }
+      .doc-head td:nth-child(3) { width: 42%; text-align: center; }
+      .doc-escudo { width: 1.4cm; height: auto; }
+      .doc-pj { width: 2.55cm; height: auto; }
+      .doc-odanc { font-family: "Times New Roman", Times, serif; line-height: 1.1; text-align: center; }
+      .doc-odanc strong { display: block; font-size: 15pt; font-weight: bold; letter-spacing: 0.5pt; }
+      .doc-odanc span { display: block; font-size: 4.5pt; font-weight: bold; line-height: 1.2; }
+      .doc-title { margin-top: 2pt; font-family: "Times New Roman", Times, serif; font-size: 10pt; font-weight: bold; line-height: 1.2; text-align: center; }
+      .doc-title span { display: block; }
+      .doc-rule { margin: 8pt 0 16pt; border-top: 1.5pt solid #000; }
+      .doc-fields { width: 100%; margin-left: 8pt; border-collapse: collapse; font-size: 11pt; font-weight: bold; }
+      .doc-fields td { padding: 1pt 0; vertical-align: top; }
+      .doc-fields .label { width: 27%; white-space: nowrap; }
+      .doc-fields .colon { width: 3%; }
+      .doc-fields .value { text-transform: uppercase; }
+      .doc-resolution { margin: 14pt 0 8pt 8pt; font-size: 11pt; font-weight: bold; text-decoration: underline; }
+      .doc-date { margin: 0 0 12pt 8pt; font-size: 11pt; line-height: 1.15; }
+      .doc-section { margin: 10pt 0 6pt; font-size: 11pt; font-weight: bold; text-decoration: underline; }
+      .doc-para { margin: 0 0 8pt; font-size: 11pt; line-height: 1.5; text-align: justify; }
+      .doc-para strong { font-weight: bold; }
+      .doc-para em { font-style: italic; }
+      .doc-signature { margin-top: 30pt; text-align: center; font-size: 10pt; line-height: 1.3; }
+      .doc-signed { margin-bottom: 5pt; font-style: italic; }
+      .doc-signature-line { width: 55%; margin: 0 auto 3pt; border-top: 0.75pt solid #000; }
+      .doc-signature strong, .doc-signature span { display: block; font-weight: bold; }
+      .doc-footer { margin-top: 14pt; padding-top: 3pt; border-top: 0.5pt solid #999; text-align: center; font-family: Arial, sans-serif; font-size: 6pt; color: #666; }
+      .doc-watermark { position: fixed; top: 45%; left: 0; width: 100%; z-index: -1; text-align: center; font-family: Arial, sans-serif; font-size: 60pt; font-weight: bold; color: rgba(0,0,0,0.05); transform: rotate(-25deg); }
+    </style>
+</head>
+<body>
+<div class="doc-page">
+<div class="doc-title"><span>OFICINA DESCENTRALIZADA DE LA AUTORIDAD NACIONAL DE CONTROL DE AREQUIPA</span><span>UNIDAD DE CALIFICACIÓN E INVESTIGACIÓN PRELIMINAR</span><span>UNIDAD DE PREVENCIÓN · MEMBRETE POR CONFIRMAR</span></div>
+      <div class="doc-fields"><strong>EXPEDIENTE N°:</strong> DEMO-0142-2026</div>
+      <div class="doc-resolution">RESOLUCIÓN N° 9</div>
+      <p class="doc-date">Arequipa, dos mil veintiséis,<br>Agosto, veinticinco.-</p>
+      <div class="doc-section">VISTOS:</div><p class="doc-para">Los actuados del presente expediente.</p>
+      <div class="doc-section">CONSIDERANDO:</div>
+      <p class="doc-para"><strong>PRIMERO:</strong> La procedencia y el plazo aplicable deben cotejarse con la norma vigente y el expediente. Texto para revisión del área.</p>
+      <p class="doc-para"><strong>SEGUNDO:</strong> Mediante Resolución 8, de fecha treinta de junio de dos mil veintiséis, se resolvió se dispuso el archivo de los actuados, según el extremo que debe cotejarse con la resolución anterior..</p>
+      <p class="doc-para">Notificación a Persona de ejemplo: 01/07/2026; constancia 113; vencimiento registrado 22/07/2026.</p>
+      <p class="doc-para">Según la revisión registrada, no se presentó recurso.</p>
+      <div class="doc-section">RESUELVE:</div>
+      <p class="doc-para"><strong>PRIMERO: DECLARAR CONSENTIDA</strong> la Resolución 8, en el extremo que disponer el archivo de los actuados.</p>
+      <p class="doc-para"><strong>SEGUNDO:</strong> [Precisar si corresponde archivo, remisión u otra disposición.]</p>
+      <p class="doc-para"><strong>REGÍSTRESE Y COMUNÍQUESE.</strong></p>
+      <div class="doc-signature">
+        <p class="doc-signed">Firma pendiente · borrador</p>
+        <div class="doc-signature-line"></div>
+        <strong>NOMBRE DEL FIRMANTE DE EJEMPLO</strong>
+        <span>Cargo de ejemplo</span>
+        <span>Corte Superior de Justicia de Arequipa</span>
+      </div>
+    
+<div class="doc-footer">BORRADOR — Documento de muestra, sin validez oficial.</div>
+</div>
+<div class="doc-watermark" aria-hidden="true">BORRADOR</div>
+</body>
+</html>

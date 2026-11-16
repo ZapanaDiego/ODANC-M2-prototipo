@@ -1,0 +1,111 @@
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:w="urn:schemas-microsoft-com:office:word"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<title>Ficha de validación – Resolución General – Calificación</title>
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->
+<style>
+@page { size: 21cm 29.7cm; margin: 0.9cm 1.25cm 0.9cm; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: Arial, Helvetica, sans-serif; color: #111; font-size: 8.8pt; line-height: 1.28; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.ficha-page { position: relative; z-index: 1; }
+.ficha-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2pt solid #0b2f6b; padding-bottom: 5pt; margin-bottom: 7pt; }
+.ficha-brand { color: #0b2f6b; font-weight: bold; font-size: 10.5pt; letter-spacing: 0.04em; }
+.ficha-head h1 { margin: 2pt 0 1pt; color: #0b2f6b; font-size: 14pt; line-height: 1.12; }
+.ficha-head p { margin: 0; color: #555; font-size: 8.5pt; }
+.ficha-stamp { border: 1pt solid #0b2f6b; color: #0b2f6b; padding: 4pt 7pt; text-align: center; font-size: 7pt; font-weight: bold; line-height: 1.4; letter-spacing: 0.06em; }
+.ficha-meta { width: 100%; border-collapse: collapse; margin-bottom: 8pt; }
+.ficha-meta td { border: 0.5pt solid #cbd5e1; padding: 2pt 4pt; vertical-align: top; }
+.ficha-meta .label { background: #eef3fb; font-weight: bold; width: 17%; }
+h2 { font-size: 9.6pt; color: #0b2f6b; border-bottom: 0.75pt solid #cbd5e1; padding-bottom: 1.5pt; margin: 7pt 0 3pt; page-break-after: avoid; }
+table.grid { width: 100%; border-collapse: collapse; font-size: 8.2pt; page-break-inside: avoid; }
+table.grid th, table.grid td { border: 0.5pt solid #cbd5e1; padding: 2pt 4pt; vertical-align: top; }
+table.grid th { background: #eef3fb; text-align: left; font-weight: bold; }
+table.grid td.center { text-align: center; }
+.lines { margin-top: 4pt; }
+.line { border-bottom: 0.5pt solid #8a96a8; height: 13pt; }
+.line.short { width: 55%; }
+.check { font-family: Arial, Helvetica, sans-serif; letter-spacing: 0.04em; }
+.small { font-size: 7.6pt; color: #555; }
+.ficha-footer { margin-top: 8pt; padding-top: 3pt; border-top: 0.5pt solid #999; text-align: center; font-size: 7pt; color: #666; }
+.page-break { page-break-before: always; }
+.firma-ficha { width: 100%; margin-top: 12pt; border-collapse: collapse; page-break-inside: avoid; }
+.firma-ficha td { padding: 2pt 4pt; vertical-align: bottom; }
+.firma-ficha .linea { border-bottom: 0.5pt solid #333; height: 24pt; }
+.ficha-watermark { position: fixed; top: 45%; left: 0; width: 100%; z-index: 0; text-align: center; font-family: Arial, sans-serif; font-size: 76pt; font-weight: bold; color: rgba(11,47,107,0.045); transform: rotate(-25deg); pointer-events: none; }
+</style>
+</head>
+<body>
+
+    <div class="ficha-page">
+      <div class="ficha-head">
+        <div>
+          <div class="ficha-brand">ODANC AREQUIPA</div>
+          <h1>Ficha de validación</h1>
+          <p>Resolución General – Calificación</p>
+        </div>
+        <div class="ficha-stamp">PROTOTIPO<br>v0.4.1</div>
+      </div>
+
+      <table class="ficha-meta">
+        <tr><td class="label">Grupo documental</td><td>Resolución General</td><td class="label">Unidad</td><td>Calificación</td></tr>
+        <tr><td class="label">Documento</td><td>Resolución General – Calificación</td><td class="label">Estado</td><td>Propuesta por validar</td></tr>
+        <tr><td class="label">Versión</td><td>Prototipo v0.4.1</td><td class="label">Fecha</td><td>02/11/2026</td></tr>
+      </table>
+
+      <h2>1. Datos del documento</h2>
+      <table class="grid">
+        <thead><tr><th style="width:22%">Campo</th><th style="width:31%">Dato de ejemplo</th><th style="width:12%">¿Obligatorio?</th><th>Observación</th></tr></thead>
+        <tbody><tr><td>Expediente</td><td>01442-2025</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Partes</td><td>Juan Pérez</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Unidad</td><td>Calificación</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Referencia</td><td>Resolución N.° 8-2026-ODANC</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Notificación</td><td>02/11/2026</td><td class="center">Sí</td><td>Viene del Módulo 1</td></tr>
+<tr><td>Vencimiento</td><td>23/11/2026</td><td class="center">Sí</td><td>Viene del Módulo 1</td></tr>
+<tr><td>Decisión</td><td>[por validar]</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Órgano destinatario</td><td>[por validar]</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Firmante</td><td>Max Marco Delfín Rivera Dueñas</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Cargo</td><td>Jefe de la ODANC – PJ</td><td class="center">Sí</td><td></td></tr>
+<tr><td>Iniciales</td><td>MMDRD</td><td class="center">Sí</td><td></td></tr></tbody>
+      </table>
+
+      <h2>2. Contenido por validar</h2>
+      <p><strong>Base legal:</strong> </p>
+      <div class="lines"><div class="line"></div></div>
+      <p><strong>Plazo:</strong> </p>
+      <div class="lines"><div class="line short"></div></div>
+      <p><strong>Competencia:</strong> </p>
+      <div class="lines"><div class="line"></div></div>
+
+      <h2>3. Flujo de revisión</h2>
+      <table class="grid">
+        <thead><tr><th style="width:18%">Etapa</th><th style="width:42%">Área / cargo</th><th>Observación</th></tr></thead>
+        <tbody>
+          <tr><td>Elabora</td><td></td><td></td></tr>
+          <tr><td>Revisa</td><td></td><td></td></tr>
+          <tr><td>Aprueba</td><td></td><td></td></tr>
+          <tr><td>Firma</td><td></td><td></td></tr>
+          <tr><td>Notifica</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+
+      
+      <h2>4. Observaciones</h2>
+      <p class="small">Registre aquí los campos que deben cambiarse, eliminarse o agregarse.</p>
+      <div class="lines"><div class="line"></div><div class="line"></div></div>
+
+      <h2>5. Conformidad</h2>
+      <p><span class="check">[ ]</span> Conforme &nbsp;&nbsp; <span class="check">[ ]</span> Conforme con observaciones &nbsp;&nbsp; <span class="check">[ ]</span> Requiere nuevo prototipo &nbsp;&nbsp; <span class="check">[ ]</span> No corresponde</p>
+
+      <table class="firma-ficha">
+        <tr><td style="width:18%">Nombre:</td><td class="linea" style="width:42%"></td><td style="width:12%">Cargo:</td><td class="linea"></td></tr>
+        <tr><td>Fecha:</td><td class="linea"></td><td>Firma:</td><td class="linea"></td></tr>
+      </table>
+
+      <div class="ficha-footer">Documento de trabajo — Prototipo v0.4.1 — Sin validez oficial</div>
+    </div>
+    
+</body>
+</html>

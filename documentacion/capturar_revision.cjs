@@ -1,0 +1,21 @@
+const fs=require('node:fs');
+(async()=>{
+ const page=await(await fetch('http://127.0.0.1:9224/json/new?about:blank',{method:'PUT'})).json();
+ const ws=new WebSocket(page.webSocketDebuggerUrl);await new Promise(r=>ws.onopen=r);
+ let id=0;const pending=new Map();
+ ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){pending.get(m.id)(m);pending.delete(m.id)}};
+ const call=(method,params={})=>new Promise((resolve,reject)=>{const n=++id;pending.set(n,m=>m.error?reject(m.error):resolve(m.result));ws.send(JSON.stringify({id:n,method,params}))});
+ const ev=async expression=>{const r=await call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.text);return r.result.value};
+ const pause=()=>new Promise(r=>setTimeout(r,220));
+ const shot=async(name,full=false)=>{await ev('window.scrollTo(0,0)');await pause();const size=full?await ev('({w:document.documentElement.scrollWidth,h:document.documentElement.scrollHeight})'):{w:1440,h:900};const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width:size.w,height:size.h,scale:1}});fs.writeFileSync(`documentacion/capturas/${name}.png`,Buffer.from(r.data,'base64'));console.log(name,size)};
+ await call('Runtime.enable');await call('Page.enable');await call('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
+ await call('Page.navigate',{url:'file:///home/diego/Proyectos/ODANC/disenio/index.html#/plazos'});await pause();
+ await shot('10-pantalla-completa-modulo1');
+ await ev("location.hash='#/documentos'");await pause();await shot('11-pantalla-completa-modulo2');await shot('12-documento-completo',true);
+ await ev("document.querySelector('#tab-plantillas').click()");await pause();await shot('13-plantillas-completa',true);
+ await ev("document.querySelector('#tab-nuevo').click();document.querySelector('#paso-siguiente').click()");await pause();await shot('14-expediente-completa',true);
+ await ev("window.confirm=()=>true;document.querySelector('#cargar-ejemplo').click();document.querySelector('#paso-siguiente').click()");await pause();await shot('15-contenido-completa',true);
+ await ev("document.querySelector('#paso-siguiente').click()");await pause();await shot('16-revision-completa',true);
+ await ev("document.querySelector('#btn-guardar-documento').click()");await pause();await ev("document.querySelector('#tab-documentos').click()");await pause();await shot('17-mis-documentos-completa',true);
+ ws.close();
+})().catch(e=>{console.error(e);process.exit(1)});

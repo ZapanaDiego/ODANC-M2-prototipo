@@ -1,0 +1,49 @@
+ODANC AREQUIPA — PROTOTIPOS DOCUMENTALES v0.4.1
+============================================================
+
+Contenido
+---------
+Documentos/
+  Resolucion-General-Calificacion.doc / .pdf
+  Informe-Calificacion.doc / .pdf
+
+Referencia/
+  Consentida-Jefatura-Juez-de-Paz.docx / .pdf
+  Documento base proporcionado por la ODANC. No se modificó.
+
+Fichas/
+  Ficha-Validacion-Resolucion-General-Calificacion.doc / .pdf
+  Ficha-Validacion-Informe-Calificacion.doc / .pdf
+  Ficha-Validacion-Consentida-Jefatura.doc / .pdf
+
+Matriz-validacion.csv
+  Lista de los 13 documentos previstos y su estado.
+
+Cómo revisar
+------------
+1. Abra el PDF para ver el diseño final.
+2. Use el .doc si necesita editar el texto o completar campos.
+3. Los campos resaltados en amarillo deben ser completados o validados.
+4. Registre las observaciones en la ficha correspondiente.
+5. Marque la conformidad en la ficha.
+
+Estados
+-------
+Propuesta por validar : documento completo en su estructura, pendiente de revisión.
+Base proporcionada    : documento entregado por la ODANC, sin cambios.
+Estructura por validar: variante sin formato oficial; solo referencia.
+
+Importante
+----------
+- Los documentos son prototipos y no tienen validez oficial.
+- La marca de agua BORRADOR debe mantenerse hasta la aprobación.
+- La firma sigue siendo responsabilidad del personal.
+- El .doc es editable y compatible con Word, pero no es un .docx nativo.
+- Word puede mostrar un aviso de formato al abrir el .doc; confirme que desea abrirlo.
+- Los PDF se generaron en A4 con las imágenes embebidas.
+
+Siguiente paso
+--------------
+Revisar los tres documentos base. Si se aprueban, se generan las diez
+variantes restantes: General para Prevención, Sanción y Apelación; Informe
+para esas mismas unidades; y Consentida para las cuatro unidades.
